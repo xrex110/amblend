@@ -44,8 +44,32 @@ console.log("Stuff created");
 //is ready, and document.body can return null in that case
 document.addEventListener("DOMContentLoaded", function(even) {
 	//Do stuff
+	createGoogleAuth();
 	createOptions();
 });
+
+function createGoogleAuth() {
+	console.log("createGoogleAuth() called");
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.id = 'googleButton';
+	btn.value = "Google Log-In";
+	btn.addEventListener('click', googleAuth);
+	document.body.appendChild(btn);
+	
+}
+
+function googleAuth(){
+	console.log("Google Authentication Called");
+	var provider = new firebase.auth.GoogleAuthProvider();
+	firebase.auth().signInWithPopup(provider).then(function(result){
+		console.log(result);
+		console.log("Google Account Linked");
+	}).catch(function(err){
+		console.log(err)
+		console.log("Google Account Log-In Failed");
+	})
+}
 
 function createOptions() {
 	console.log("createOptions() called");

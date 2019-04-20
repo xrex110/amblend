@@ -1,15 +1,31 @@
 <html>
 	<head>
+	</head>
+	<body>
+		<h1> AMBLEND </h1><br>		
+		
 		<!-- CDN imports for libraries used -->
+		<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-database.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.core.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.spatial.min.js"></script>
 		<!-- <script src="lib/howler.core.js"></script> -->
 		
 		<!-- Functionality code here -->
+		<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyAWH7i4JW0bz2PUi1zI--CbBjBGRgqbDmc",
+			authDomain: "amblend.firebaseapp.com",
+			databaseURL: "https://amblend.firebaseio.com",
+			projectId: "amblend",
+			storageBucket: "amblend.appspot.com",
+			messagingSenderId: "911442990208"
+		};
+		firebase.initializeApp(config);
+		</script>
 		<script src="javascript/mainpage.js"></script>
 		<link rel="stylesheet" href="styles/mainpage.css"></script> 
-	</head>
-	<body>
-		<h1> AMBLEND </h1><br>
 	</body>
 </html>
