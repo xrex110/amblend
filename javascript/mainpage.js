@@ -165,8 +165,14 @@ function createOptions() {
 function activateSound(e) {
 	for(i = 0; i < soundoptions.length; i++) {
 		if(i + " Activate" == e.srcElement.id) {
-			if(soundoptions[i].sound.playing()) soundoptions[i].sound.stop();
-			else soundoptions[i].sound.play();
+			if(soundoptions[i].sound.playing()){
+				soundoptions[i].sound.stop();
+				document.getElementById(e.srcElement.id).value = "Activate " + soundoptions[i].name; 
+			}
+			else{
+				soundoptions[i].sound.play();
+				document.getElementById(e.srcElement.id).value = "Deactivate " + soundoptions[i].name; 
+			}
 		}
 	}
 }
