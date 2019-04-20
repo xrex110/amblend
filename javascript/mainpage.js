@@ -14,22 +14,26 @@ class Clip {
 var softrain = new Howl ({
 	src: ['resources/sounds/Gentle-rain-loop.mp3'],
 	loop: true,
-	volume: 0.5
+	volume: 0.5,
+	stereo: 0
 });
 var fireplace = new Howl ({
 	src: ['resources/sounds/Fireplace-sound.mp3'],
 	loop: true,
-	volume: 0.5
+	volume: 0.5,
+	stereo: 0
 });
 var forest_creek = new Howl ({
 	src: ['resources/sounds/Forest-creek-nature-sounds.mp3'],
 	loop:true,
-	volume: 0.5
+	volume: 0.5,
+	stereo: 0
 });
 var ocean_waves = new Howl ({
 	src: ['resources/sounds/Sound-of-the-ocean.mp3'],
 	loop: true,
-	volume: 0.5
+	volume: 0.5,
+	stereo: 0
 });
 
 var soundoptions = [new Clip("Soft rain", softrain, 0, 0),
@@ -44,9 +48,82 @@ console.log("Stuff created");
 //is ready, and document.body can return null in that case
 document.addEventListener("DOMContentLoaded", function(even) {
 	//Do stuff
-	createGoogleAuth();
-	createOptions();
+	/*
+	firebase.auth().getRedirectResult().then(function(result){
+		if(result.credential){
+			console.log(result);
+			console.log("Google Account Linked");
+			addUserToDatabase();
+			createSaveLoad();
+		}
+	});*/
+	
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			// User is signed in.
+			createLogoutButton();
+			createOptions();
+			console.log(user.displayName + " logged in");
+			addUserToDatabase();
+			createSaveLoad();
+		} else {
+			// No user is signed in.
+			createGoogleAuth();
+			createOptions();
+		}
 });
+
+});
+
+function createSaveLoad() {
+	console.log("createSaveLoad() called");
+	
+	document.body.appendChild(document.createElement("br"));
+	
+	var textField = document.createElement("input");
+	textField.setAttribute("type", "text");
+	textField.id = 'saveText';
+	document.body.appendChild(textField);
+	
+	document.body.appendChild(document.createElement("br"));
+	
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.id = 'saveButton';
+	btn.value = "Save Current Loadout";
+	btn.addEventListener('click', saveLoadout);
+	document.body.appendChild(btn);
+}
+
+function saveLoadout(){
+	console.log("saveLoadout() called");
+	
+	if(!(firebase.auth().currentUser == null)){
+		for(i = 0; i < soundoptions.length; ++i){
+			console.log(soundoptions[i].name + " " + soundoptions[i].sound.volume() + " " + soundoptions[i].sound.stereo());
+		}
+	}else{
+		console.log("big error");
+	}
+}
+
+function createLogoutButton() {
+	console.log("createLogoutButton() called");
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.id = 'logoutButton';
+	btn.value = "Logout";
+	btn.addEventListener('click', logout);
+	document.body.appendChild(btn);
+}
+
+function logout(){
+	
+	firebase.auth().signOut().then(function(){
+		location.reload();
+	});
+	
+}
 
 function createGoogleAuth() {
 	console.log("createGoogleAuth() called");
@@ -61,19 +138,15 @@ function createGoogleAuth() {
 
 function googleAuth(){
 	console.log("Google Authentication Called");
-	var provider = new firebase.auth.GoogleAuthProvider();
-	firebase.auth().signInWithPopup(provider).then(function(result){
-		console.log(result);
-		console.log("Google Account Linked");
-		addUserToDatabase();
-	}).catch(function(err){
-		console.log(err)
-		console.log("Google Account Log-In Failed");
-	})
+	firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+		.then(function(){
+			var provider = new firebase.auth.GoogleAuthProvider();
+			
+			return firebase.auth().signInWithRedirect(provider);
+		});
 }
 
 function addUserToDatabase(){
-	console.log(firebase.auth().currentUser.displayName);
 	var database = firebase.firestore();
 	var newUser = true;
 	const userEmail = firebase.auth().currentUser.email;
@@ -159,6 +232,8 @@ function createOptions() {
 		btn.value = "Activate " + clip.name;
 		btn.addEventListener('click', activateSound);
 		document.body.appendChild(btn);
+		
+		document.body.appendChild(document.createElement("br"));
 	}
 }
 
