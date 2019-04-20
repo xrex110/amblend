@@ -132,7 +132,7 @@ function createOptions() {
 		document.body.appendChild(document.createElement("br"));
 		//Create the two sliders:
 		var volumeSlider = document.createElement("input");
-		volumeSlider.id = i;
+		volumeSlider.id = clip.name + " Vol";
 		volumeSlider.type = "range";
 		volumeSlider.min = "0";
 		volumeSlider.max = "100";
@@ -143,7 +143,7 @@ function createOptions() {
 		document.body.appendChild(document.createElement("br"));
 
 		var panningSlider = document.createElement("input");
-		panningSlider.id = i;
+		panningSlider.id = clip.name + " Pan";
 		panningSlider.type = "range";
 		panningSlider.min = "-100";
 		panningSlider.max = "100";
@@ -155,7 +155,7 @@ function createOptions() {
 
 		var btn = document.createElement("input");
 		btn.type = "button";
-		btn.id = i;
+		btn.id = clip.name + " Button";
 		btn.value = "Activate " + clip.name;
 		btn.addEventListener('click', activateSound);
 		document.body.appendChild(btn);
