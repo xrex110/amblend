@@ -65,10 +65,58 @@ function googleAuth(){
 	firebase.auth().signInWithPopup(provider).then(function(result){
 		console.log(result);
 		console.log("Google Account Linked");
+		addUserToDatabase();
 	}).catch(function(err){
 		console.log(err)
 		console.log("Google Account Log-In Failed");
 	})
+}
+
+function addUserToDatabase(){
+	console.log(firebase.auth().currentUser.displayName);
+	var database = firebase.firestore();
+	var newUser = true;
+	const userEmail = firebase.auth().currentUser.email;
+	const userDisplayName = firebase.auth().currentUser.displayName;
+	//setup new user information
+	database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
+			if(doc.data().email == firebase.auth().currentUser.email){
+				newUser = false;
+			}
+		});
+		if(newUser){
+		database.collection("users").add({
+			email: userEmail,
+			displayName: userDisplayName
+		}).then(function(){
+			console.log("user added");
+		}).catch(function(error){
+			console.log("Error: ", error);
+		});
+		
+		database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
+				if(doc.data().email == firebase.auth().currentUser.email){
+					database.collection("users").doc(doc.id).collection("ClipCollections").add({
+						name: "dummyClipCollection"
+					});
+					database.collection("users/" + doc.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc2 => {
+							if(doc2.data().name == "dummyClipCollection"){
+								database.collection("users/" + doc.id + "/ClipCollections").doc(doc2.id).collection("Clips").add({
+									name: "dummyClipName",
+									panning: 0,
+									volume: 0
+								});
+							}
+						});
+					});
+				}
+			});
+			
+		});
+		
+		}
+	});
+
 }
 
 function createOptions() {
