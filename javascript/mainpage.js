@@ -132,18 +132,18 @@ function createOptions() {
 		document.body.appendChild(document.createElement("br"));
 		//Create the two sliders:
 		var volumeSlider = document.createElement("input");
-		volumeSlider.id = clip.name + " Vol";
+		volumeSlider.id = i + " Volume";
 		volumeSlider.type = "range";
 		volumeSlider.min = "0";
 		volumeSlider.max = "100";
-		volumeSlider.value = "0";
+		volumeSlider.value = "50";
 		volumeSlider.addEventListener('input', updateVolume);
 		document.body.appendChild(volumeSlider);
 
 		document.body.appendChild(document.createElement("br"));
 
 		var panningSlider = document.createElement("input");
-		panningSlider.id = clip.name + " Pan";
+		panningSlider.id = i + " Panning";
 		panningSlider.type = "range";
 		panningSlider.min = "-100";
 		panningSlider.max = "100";
@@ -155,7 +155,7 @@ function createOptions() {
 
 		var btn = document.createElement("input");
 		btn.type = "button";
-		btn.id = clip.name + " Button";
+		btn.id = i + " Activate";
 		btn.value = "Activate " + clip.name;
 		btn.addEventListener('click', activateSound);
 		document.body.appendChild(btn);
@@ -164,7 +164,7 @@ function createOptions() {
 
 function activateSound(e) {
 	for(i = 0; i < soundoptions.length; i++) {
-		if(i == e.srcElement.id) {
+		if(i + " Activate" == e.srcElement.id) {
 			if(soundoptions[i].sound.playing()) soundoptions[i].sound.stop();
 			else soundoptions[i].sound.play();
 		}
@@ -174,7 +174,7 @@ function activateSound(e) {
 function updateVolume(e) {
 	//console.log("Volume changed for " + e.srcElement.id);
 	for(i = 0; i < soundoptions.length; i++) {
-		if(i == e.srcElement.id) {
+		if(i + " Volume" == e.srcElement.id) {
 			//console.log("Eureka! at " + i);
 			soundoptions[i].sound.volume(e.srcElement.value * 0.01);
 		}
@@ -184,7 +184,7 @@ function updateVolume(e) {
 function updatePanning(e) {
 	console.log("Panning set to " + e.srcElement.value);
 	for(i = 0; i < soundoptions.length; i++) {
-		if(i == e.srcElement.id) {
+		if(i + " Panning" == e.srcElement.id) {
 			//console.log("Eureka! at " + i);
 			soundoptions[i].sound.stereo(e.srcElement.value * 0.01);
 		}
