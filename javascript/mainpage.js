@@ -9,6 +9,10 @@ class Clip {
 	}
 }
 
+var loadListViewable = false;
+
+var loadListIds = [];
+
 
 // The following are all Howls declared based on the clips available
 var softrain = new Howl ({
@@ -93,6 +97,90 @@ function createSaveLoad() {
 	btn.value = "Save Current Loadout";
 	btn.addEventListener('click', saveLoadout);
 	document.body.appendChild(btn);
+	
+	document.body.appendChild(document.createElement("br"));
+	document.body.appendChild(document.createElement("br"));
+	
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.id = 'loadButton';
+	btn.value = "Load";
+	btn.addEventListener('click', loadListCreation);
+	document.body.appendChild(btn);
+}
+
+function loadListCreation(){
+	if(loadListViewable){
+		loadListViewable = false;
+		for(i = 0; i < loadListIds.length; ++i){
+			var btn = document.getElementById(loadListIds[i]);
+			document.body.removeChild(btn);
+		}
+		var ldButton = document.getElementById("loadButton");
+		ldButton.value = "Load";
+		loadListIds = [];
+	}else{
+		var database = firebase.firestore();
+		var ldButton = document.getElementById("loadButton");
+		ldButton.value = "Close";
+			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
+				if(doc.data().email == firebase.auth().currentUser.email){
+					database.collection("users/" + doc.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc2 => {
+							loadListViewable = true;
+							//document.body.appendChild(document.createElement("br"));
+							if(!(doc2.data().name == "dummyClipCollection")){
+								//document.body.appendChild(document.createElement("br"));
+								loadListIds.push(doc2.data().name);
+								var btn = document.createElement("input");
+								btn.type = "button";
+								btn.id = doc2.data().name;
+								btn.value = doc2.data().name;
+								btn.addEventListener('click', function(){
+									loadLoadout(doc2.data().name);
+								}, false);
+								document.body.appendChild(btn);
+							}
+							
+						});
+					});
+				}
+			});
+			});
+	}
+}
+
+function loadLoadout(buttonID){
+	console.log("loadLoadout() called");
+	
+	var database = firebase.firestore();
+			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
+				if(doc.data().email == firebase.auth().currentUser.email){
+					database.collection("users/" + doc.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc2 => {
+							if(buttonID == doc2.data().name){
+								database.collection("users/" + doc.id + "/ClipCollections/" + doc2.id + "/Clips").get().then(snapshot => {snapshot.forEach(doc3 => {
+										//setting values from load
+										var clipVolume = document.getElementById(doc3.data().name + " Volume");
+										clipVolume.value = doc3.data().volume * 100;
+										var clipPanning = document.getElementById(doc3.data().name + " Panning");
+										clipPanning.value = doc3.data().panning * 100;
+										for(i = 0; i < soundoptions.length; ++i){
+											if(doc3.data().name == soundoptions[i].name){
+											
+												soundoptions[i].sound.volume(doc3.data().volume);
+												soundoptions[i].sound.stereo(doc3.data().panning);
+												console.log(doc3.data().name + " updated");
+											}
+										}
+										
+									});
+								});
+							}
+						});
+					});
+				}
+			});
+			});
+			
 }
 
 function saveLoadout(){
@@ -102,6 +190,43 @@ function saveLoadout(){
 		for(i = 0; i < soundoptions.length; ++i){
 			console.log(soundoptions[i].name + " " + soundoptions[i].sound.volume() + " " + soundoptions[i].sound.stereo());
 		}
+			var database = firebase.firestore();
+			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
+				if(doc.data().email == firebase.auth().currentUser.email){
+					var clipCollectionName = document.getElementById("saveText").value;
+					database.collection("users").doc(doc.id).collection("ClipCollections").add({
+						name: clipCollectionName
+					});
+					document.getElementById("saveText").value = "";
+					database.collection("users/" + doc.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc2 => {
+							if(doc2.data().name == clipCollectionName){
+								for(i = 0; i < soundoptions.length; ++i){
+									var stereoValue;
+									if(!(soundoptions[i].sound.stereo())){
+										stereoValue = 0;
+									}else{
+										stereoValue = soundoptions[i].sound.stereo();
+									}
+									database.collection("users/" + doc.id + "/ClipCollections").doc(doc2.id).collection("Clips").add({
+										name: soundoptions[i].name,
+										panning: stereoValue,
+										volume: soundoptions[i].sound.volume(),
+										activated: soundoptions[i].sound.playing()
+									});
+								}
+							}
+						});
+					});
+				}
+			});
+			});
+			
+			if(loadListViewable == true){
+				//recreate load list if it's already open to add newest item.
+				loadListCreation();
+				loadListViewable = false;
+				loadListCreation();
+			}
 	}else{
 		console.log("big error");
 	}
@@ -205,7 +330,7 @@ function createOptions() {
 		document.body.appendChild(document.createElement("br"));
 		//Create the two sliders:
 		var volumeSlider = document.createElement("input");
-		volumeSlider.id = i + " Volume";
+		volumeSlider.id = clip.name + " Volume";
 		volumeSlider.type = "range";
 		volumeSlider.min = "0";
 		volumeSlider.max = "100";
@@ -216,7 +341,7 @@ function createOptions() {
 		document.body.appendChild(document.createElement("br"));
 
 		var panningSlider = document.createElement("input");
-		panningSlider.id = i + " Panning";
+		panningSlider.id = clip.name + " Panning";
 		panningSlider.type = "range";
 		panningSlider.min = "-100";
 		panningSlider.max = "100";
@@ -228,7 +353,7 @@ function createOptions() {
 
 		var btn = document.createElement("input");
 		btn.type = "button";
-		btn.id = i + " Activate";
+		btn.id = clip.name + " Activate";
 		btn.value = "Activate " + clip.name;
 		btn.addEventListener('click', activateSound);
 		document.body.appendChild(btn);
@@ -239,7 +364,7 @@ function createOptions() {
 
 function activateSound(e) {
 	for(i = 0; i < soundoptions.length; i++) {
-		if(i + " Activate" == e.srcElement.id) {
+		if(soundoptions[i].name + " Activate" == e.srcElement.id) {
 			if(soundoptions[i].sound.playing()){
 				soundoptions[i].sound.stop();
 				document.getElementById(e.srcElement.id).value = "Activate " + soundoptions[i].name; 
@@ -255,7 +380,7 @@ function activateSound(e) {
 function updateVolume(e) {
 	//console.log("Volume changed for " + e.srcElement.id);
 	for(i = 0; i < soundoptions.length; i++) {
-		if(i + " Volume" == e.srcElement.id) {
+		if(soundoptions[i].name + " Volume" == e.srcElement.id) {
 			//console.log("Eureka! at " + i);
 			soundoptions[i].sound.volume(e.srcElement.value * 0.01);
 		}
@@ -265,7 +390,7 @@ function updateVolume(e) {
 function updatePanning(e) {
 	console.log("Panning set to " + e.srcElement.value);
 	for(i = 0; i < soundoptions.length; i++) {
-		if(i + " Panning" == e.srcElement.id) {
+		if(soundoptions[i].name + " Panning" == e.srcElement.id) {
 			//console.log("Eureka! at " + i);
 			soundoptions[i].sound.stereo(e.srcElement.value * 0.01);
 		}
