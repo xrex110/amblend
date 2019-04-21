@@ -169,6 +169,18 @@ function loadLoadout(buttonID){
 												soundoptions[i].sound.volume(doc3.data().volume);
 												soundoptions[i].sound.stereo(doc3.data().panning);
 												console.log(doc3.data().name + " updated");
+												
+												if(doc3.data().activated){
+													if(!(soundoptions[i].sound.playing())){
+														soundoptions[i].sound.play();
+														document.getElementById(doc3.data().name + " Activate").value = "Deactivate " + soundoptions[i].name;
+													}
+												}else{
+													if(soundoptions[i].sound.playing()){
+														soundoptions[i].sound.stop();
+														document.getElementById(doc3.data().name + " Activate").value = "Activate " + soundoptions[i].name;
+													}
+												}
 											}
 										}
 										
