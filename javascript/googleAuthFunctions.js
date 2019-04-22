@@ -4,8 +4,8 @@ function createLogoutButton() {
 	var btn = document.createElement("input");
 	btn.type = "image";
 	btn.src = "resources/googlesignout.png";
-	btn.id = 'googleButton';
-	btn.addEventListener('click', logout());
+	btn.id = 'logoutButton';
+	btn.addEventListener('click', logout);
 	div.appendChild(btn);
 }
 
