@@ -248,3 +248,19 @@ input[type=image].googleAuthButton {
 .select select:disabled ~ .select_arrow {
     border-top-color: #cccccc;
 }
+
+.save-input {
+     padding: 4px;
+     font-size: 16px;
+     border-width: 2px;
+     border-color: #CCCCCC;
+     background-color: #9848ee;
+     color: #ffffff;
+     border-style: dashed;
+     border-radius: 50px;
+     box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+     text-shadow: 0px 0px 5px rgba(66,66,66,.75);
+}
+ .save-input:focus {
+     outline:none;
+}
