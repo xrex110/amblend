@@ -6,13 +6,13 @@ function createSaveLoad() {
 	console.log("createSaveLoad() called");
 	
 	var itemsloaded = loadListCreation();
-	for(int i = 0; i < itemsloaded.length; i++) {
+	for(var i = 0; i < itemsloaded.length; i++) {
 		console.log(itemsloaded[i]);
 	}
 
 	var menu = document.createElement("div");
 	menu.className = "select";
-	for(int i = 0; i < itemsloaded.length; i++) {
+	for(var i = 0; i < itemsloaded.length; i++) {
 		var el = document.createElement("option");
 		el.textContent = itemsloaded[i];
 		el.value = itemsloaded[i];
