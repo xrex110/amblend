@@ -9,11 +9,12 @@ div.purpleHorizon {
   border: 8px solid #000000;
   background-color: #4A2F6F;
   width: 95%;
-  height: 55%;
+  /*height: 65%;*/
   text-align: center;
   border-collapse: collapse;
   margin: auto;
   table-layout: fixed;
+  
 }
 .divTable.purpleHorizon .divTableCell, .divTable.purpleHorizon .divTableHead {
   border: 5px solid #000000;

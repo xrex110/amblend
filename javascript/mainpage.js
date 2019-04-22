@@ -100,6 +100,7 @@ function createOptions() {
 
 		parentDiv.appendChild(document.createElement("br"));
 		parentDiv.appendChild(document.createElement("br"));
+		parentDiv.appendChild(document.createElement("br"));
 
 		var panningSlider = document.createElement("input");
 		panningSlider.id = clip.name + " Panning";
@@ -111,6 +112,7 @@ function createOptions() {
 		panningSlider.addEventListener('input', updatePanning);
 		parentDiv.appendChild(panningSlider);
 
+		parentDiv.appendChild(document.createElement("br"));
 		parentDiv.appendChild(document.createElement("br"));
 		parentDiv.appendChild(document.createElement("br"));
 
