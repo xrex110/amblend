@@ -5,7 +5,22 @@ var loadListIds = [];
 function createSaveLoad() {
 	console.log("createSaveLoad() called");
 	
-	document.body.appendChild(document.createElement("br"));
+	var itemsloaded = loadListCreation();
+	for(int i = 0; i < itemsloaded.length; i++) {
+		console.log(itemsloaded[i]);
+	}
+
+	var menu = document.createElement("div");
+	menu.className = "select";
+	for(int i = 0; i < itemsloaded.length; i++) {
+		var el = document.createElement("option");
+		el.textContent = itemsloaded[i];
+		el.value = itemsloaded[i];
+		menu.appendChild(el);
+	}
+	document.body.appendChild(menu);
+
+	/*document.body.appendChild(document.createElement("br"));
 	
 	var textField = document.createElement("input");
 	textField.setAttribute("type", "text");
@@ -29,7 +44,7 @@ function createSaveLoad() {
 	btn.id = 'loadButton';
 	btn.value = "Load";
 	btn.addEventListener('click', loadListCreation);
-	document.body.appendChild(btn);
+	document.body.appendChild(btn);*/
 }
 
 
@@ -55,18 +70,12 @@ function loadListCreation(){
 							if(!(doc2.data().name == "dummyClipCollection")){
 								//document.body.appendChild(document.createElement("br"));
 								loadListIds.push(doc2.data().name);
-								var btn = document.createElement("input");
-								btn.type = "button";
-								btn.id = doc2.data().name;
-								btn.value = doc2.data().name;
-								btn.addEventListener('click', function(){
-									loadLoadout(doc2.data().name);
-								}, false);
-								document.body.appendChild(btn);
 							}
 							
 						});
 					});
+					
+					return loadListIds;
 				}
 			});
 			});
