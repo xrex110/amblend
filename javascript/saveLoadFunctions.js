@@ -48,19 +48,7 @@ function createSaveLoad() {
 }
 
 function loadListCreation(){
-	if(loadListViewable){
-		loadListViewable = false;
-		for(i = 0; i < loadListIds.length; ++i){
-			var btn = document.getElementById(loadListIds[i]);
-			document.body.removeChild(btn);
-		}
-		var ldButton = document.getElementById("loadButton");
-		ldButton.value = "Load";
-		loadListIds = [];
-	}else{
 		var database = firebase.firestore();
-		var ldButton = document.getElementById("loadButton");
-		ldButton.value = "Close";
 			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
 				if(doc.data().email == firebase.auth().currentUser.email){
 					database.collection("users/" + doc.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc2 => {
