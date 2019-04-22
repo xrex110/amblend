@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function(even) {
 
 function createOptions() {
     //TODO DELETE ME
-    createLeaderboardButton();
 	console.log("createOptions() called");
 	for(i = 0; i < soundoptions.length; ++i) {
 		var parentDivId = "c" + i;
