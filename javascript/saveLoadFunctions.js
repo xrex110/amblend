@@ -130,6 +130,33 @@ function saveLoadout(){
 			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
 				if(doc.data().email == firebase.auth().currentUser.email){
 					var clipCollectionName = document.getElementById("saveText").value;
+					
+					
+					database.collection("leaderboard").add({
+						name: clipCollectionName,
+						userEmail: doc.data().email,
+						rating: 0
+					});
+					database.collection("leaderboard").get().then(snapshot => {snapshot.forEach(doc2 => {
+							if(doc2.data().name == clipCollectionName){
+								for(i = 0; i < soundoptions.length; ++i){
+									var stereoValue;
+									if(!(soundoptions[i].sound.stereo())){
+										stereoValue = 0;
+									}else{
+										stereoValue = soundoptions[i].sound.stereo();
+									}
+									database.collection("leaderboard").doc(doc2.id).collection("Clips").add({
+										name: soundoptions[i].name,
+										panning: stereoValue,
+										volume: soundoptions[i].sound.volume(),
+										activated: soundoptions[i].sound.playing()
+									});
+								}
+							}
+						});
+					});
+					
 					database.collection("users").doc(doc.id).collection("ClipCollections").add({
 						name: clipCollectionName
 					});
@@ -153,6 +180,7 @@ function saveLoadout(){
 							}
 						});
 					});
+					
 				}
 			});
 			});
