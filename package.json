@@ -9,4 +9,7 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/ashleygwilliams/my_package/issues"
+    }
   }
