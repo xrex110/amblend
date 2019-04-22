@@ -7,6 +7,28 @@ function createSaveLoad() {
 	console.log("createSaveLoad() called");
 	loadListCreation();
 	
+	//save button
+	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	var textField = document.createElement("input");
+	textField.type = "text";
+	textField.id = "saveShit-input";
+	textField.className = "save-input";
+	textField.placeholder = "Enter Preset Name";
+	document.getElementById("presetMenu").appendChild(textField);
+	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	var saveButton = document.createElement("input");
+	saveButton.type = "button";
+	saveButton.className = "activate-button";
+	saveButton.id = "saveShit";
+	saveButton.value = "Save";
+	saveButton.addEventListener('click', function(){
+		saveLoadout();
+	}, false);
+	document.getElementById("presetMenu").appendChild(saveButton);
+	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	
+	//load shit
 	var menu = document.createElement("div");
 	menu.className = "select";
 	var selecter = document.createElement("select");
@@ -19,6 +41,7 @@ function createSaveLoad() {
 		selecter.appendChild(el);
 	});
 	}, 1000);
+	
 	menu.appendChild(selecter);
 	var arrow = document.createElement("div");
 	arrow.className = "select_arrow";
@@ -145,7 +168,7 @@ function saveLoadout(){
 			var database = firebase.firestore();
 			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
 				if(doc.data().email == firebase.auth().currentUser.email){
-					var clipCollectionName = document.getElementById("saveText").value;
+					var clipCollectionName = document.getElementById("saveShit-input").value;
 					
 					
 					database.collection("leaderboard").add({
@@ -176,7 +199,7 @@ function saveLoadout(){
 					database.collection("users").doc(doc.id).collection("ClipCollections").add({
 						name: clipCollectionName
 					});
-					document.getElementById("saveText").value = "";
+					document.getElementById("saveShit-input").value = "";
 					database.collection("users/" + doc.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc2 => {
 							if(doc2.data().name == clipCollectionName){
 								for(i = 0; i < soundoptions.length; ++i){
@@ -192,6 +215,7 @@ function saveLoadout(){
 										volume: soundoptions[i].sound.volume(),
 										activated: soundoptions[i].sound.playing()
 									});
+									location.reload();
 								}
 							}
 						});
@@ -200,13 +224,6 @@ function saveLoadout(){
 				}
 			});
 			});
-			
-			if(loadListViewable == true){
-				//recreate load list if it's already open to add newest item.
-				loadListCreation();
-				loadListViewable = false;
-				loadListCreation();
-			}
 	}else{
 		console.log("big error");
 	}
