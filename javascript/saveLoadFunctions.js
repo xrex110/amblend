@@ -1,24 +1,42 @@
 var loadListViewable = false;
 
+
 var loadListIds = [];
 
 function createSaveLoad() {
 	console.log("createSaveLoad() called");
+	loadListCreation();
 	
-	var itemsloaded = loadListCreation();
-	for(var i = 0; i < itemsloaded.length; i++) {
-		console.log(itemsloaded[i]);
-	}
-
 	var menu = document.createElement("div");
 	menu.className = "select";
-	for(var i = 0; i < itemsloaded.length; i++) {
+	var selecter = document.createElement("select");
+	setTimeout(function(){
+
+	loadListIds.forEach(function(lol) {
 		var el = document.createElement("option");
-		el.textContent = itemsloaded[i];
-		el.value = itemsloaded[i];
-		menu.appendChild(el);
-	}
-	document.body.appendChild(menu);
+		el.textContent = lol;
+		el.value = lol;
+		selecter.appendChild(el);
+	});
+	}, 1000);
+	menu.appendChild(selecter);
+	var arrow = document.createElement("div");
+	arrow.className = "select_arrow";
+	menu.appendChild(arrow);
+	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	document.getElementById("presetMenu").appendChild(menu);
+	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.className = "activate-button";
+	btn.id = "loadShit";
+	btn.value = "Load";
+	btn.addEventListener('click', function(){
+		loadLoadout(selecter.options[selecter.selectedIndex].text);
+	}, false);
+	document.getElementById("presetMenu").appendChild(btn);
+	
+	
 
 	/*document.body.appendChild(document.createElement("br"));
 	
@@ -48,6 +66,7 @@ function createSaveLoad() {
 }
 
 function loadListCreation(){
+	
 		var database = firebase.firestore();
 			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
 				if(doc.data().email == firebase.auth().currentUser.email){
@@ -62,10 +81,11 @@ function loadListCreation(){
 						});
 					});
 					
-					return loadListIds;
+					//return loadListIds;
 				}
 			});
 			});
+			
 	}
 
 

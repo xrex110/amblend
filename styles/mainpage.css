@@ -204,7 +204,7 @@ input[type=image].googleAuthButton {
     position: relative;
     display: inline-block;
     margin-bottom: 15px;
-    width: 100%;
+    width: 10%;
 }    .select select {
         font-family: 'Arial';
         display: inline-block;
