@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function(even) {
 		if (user) {
 			// User is signed in.
 			createLogoutButton(); //Relevant functions in googleAuthFunctions.js
+            createLeaderboardButton();
 			createOptions();
 			console.log(user.displayName + " logged in");
 			addUserToDatabase(); //Relevant functions in googleAuthFunctions.js
@@ -72,6 +73,8 @@ document.addEventListener("DOMContentLoaded", function(even) {
 });
 
 function createOptions() {
+    //TODO DELETE ME
+    createLeaderboardButton();
 	console.log("createOptions() called");
 	for(i = 0; i < soundoptions.length; ++i) {
 		var parentDivId = "c" + i;
@@ -139,6 +142,19 @@ function activateSound(e) {
 			}
 		}
 	}
+}
+
+function createLeaderboardButton() {
+	console.log("createLeaderboardButton() called");
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.id = 'leaderboardButton';
+	btn.value = "Leaderboard";
+	btn.onclick=directToLeaderboard;
+	document.body.appendChild(btn);
+}
+function directToLeaderboard() {
+    window.location = "./leaderboard.html"
 }
 
 function updateVolume(e) {
