@@ -1,11 +1,12 @@
 function createLogoutButton() {
 	console.log("createLogoutButton() called");
+	var div = document.getElementById("loginDiv");
 	var btn = document.createElement("input");
-	btn.type = "button";
-	btn.id = 'logoutButton';
-	btn.value = "Logout";
-	btn.addEventListener('click', logout);
-	document.body.appendChild(btn);
+	btn.type = "image";
+	btn.src = "resources/googlesignout.png";
+	btn.id = 'googleButton';
+	btn.addEventListener('click', googleAuth);
+	div.appendChild(btn);
 }
 
 function logout(){
@@ -18,12 +19,13 @@ function logout(){
 
 function createGoogleAuth() {
 	console.log("createGoogleAuth() called");
+	var div = document.getElementById("loginDiv");
 	var btn = document.createElement("input");
-	btn.type = "button";
+	btn.type = "image";
+	btn.src = "resources/googlesignin.png";
 	btn.id = 'googleButton';
-	btn.value = "Google Log-In";
 	btn.addEventListener('click', googleAuth);
-	document.body.appendChild(btn);
+	div.appendChild(btn);
 	
 }
 
