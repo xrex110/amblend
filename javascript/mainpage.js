@@ -43,7 +43,11 @@ var ocean_waves = new Howl ({
 var soundoptions = [new Clip("Soft rain", softrain, 0, 0),
 					new Clip("Fireplace", fireplace, 0, 0),
 					new Clip("Forest creek", forest_creek, 0, 0),
-					new Clip("Ocean beach", ocean_waves, 0, 0)];
+					new Clip("Ocean beach", ocean_waves, 0, 0),
+					new Clip("Fireplace", fireplace, 0, 0),
+					new Clip("Forest creek", forest_creek, 0, 0),
+					new Clip("Fireplace", fireplace, 0, 0),
+					new Clip("Forest creek", forest_creek, 0, 0)];
 console.log("Stuff created");
 
 //The below event listener makes this code wait until the DOM is loaded from HTML,
@@ -70,45 +74,53 @@ document.addEventListener("DOMContentLoaded", function(even) {
 function createOptions() {
 	console.log("createOptions() called");
 	for(i = 0; i < soundoptions.length; ++i) {
+		var parentDivId = "c" + i;
+		console.log("The current div: " + parentDivId);
+		var parentDiv = document.getElementById(parentDivId);
+
 		var clip = soundoptions[i];
 		console.log("In the loop");
 		//Create the title
 		var title = document.createElement("h1");
+		title.className = "clipTitleText";
 		title.appendChild(document.createTextNode(clip.name));
-		document.body.appendChild(title);
+		parentDiv.appendChild(title);
 		
-		document.body.appendChild(document.createElement("br"));
+		//parentDiv.appendChild(document.createElement("br"));
 		//Create the two sliders:
 		var volumeSlider = document.createElement("input");
 		volumeSlider.id = clip.name + " Volume";
 		volumeSlider.type = "range";
+		volumeSlider.className = "volume-slider";
 		volumeSlider.min = "0";
 		volumeSlider.max = "100";
 		volumeSlider.value = "50";
 		volumeSlider.addEventListener('input', updateVolume);
-		document.body.appendChild(volumeSlider);
+		parentDiv.appendChild(volumeSlider);
 
-		document.body.appendChild(document.createElement("br"));
+		parentDiv.appendChild(document.createElement("br"));
+		parentDiv.appendChild(document.createElement("br"));
 
 		var panningSlider = document.createElement("input");
 		panningSlider.id = clip.name + " Panning";
 		panningSlider.type = "range";
+		panningSlider.className = "volume-slider";
 		panningSlider.min = "-100";
 		panningSlider.max = "100";
 		panningSlider.value = "0";
 		panningSlider.addEventListener('input', updatePanning);
-		document.body.appendChild(panningSlider);
+		parentDiv.appendChild(panningSlider);
 
-		document.body.appendChild(document.createElement("br"));
+		parentDiv.appendChild(document.createElement("br"));
+		parentDiv.appendChild(document.createElement("br"));
 
 		var btn = document.createElement("input");
 		btn.type = "button";
+		btn.className = "activate-button";
 		btn.id = clip.name + " Activate";
 		btn.value = "Activate " + clip.name;
 		btn.addEventListener('click', activateSound);
-		document.body.appendChild(btn);
-		
-		document.body.appendChild(document.createElement("br"));
+		parentDiv.appendChild(btn);
 	}
 }
 
