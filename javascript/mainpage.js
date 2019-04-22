@@ -51,17 +51,6 @@ console.log("Stuff created");
 //It is required because sometimes createOptions will start executing before the DOM
 //is ready, and document.body can return null in that case
 document.addEventListener("DOMContentLoaded", function(even) {
-	//Do stuff
-	/*
-	firebase.auth().getRedirectResult().then(function(result){
-		if(result.credential){
-			console.log(result);
-			console.log("Google Account Linked");
-			addUserToDatabase();
-			createSaveLoad();
-		}
-	});*/
-	
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
 			// User is signed in.
@@ -75,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function(even) {
 			createGoogleAuth();
 			createOptions();
 		}
-});
+	});
 
 });
 
@@ -119,7 +108,8 @@ function loadListCreation(){
 		var ldButton = document.getElementById("loadButton");
 		ldButton.value = "Load";
 		loadListIds = [];
-	}else{
+	}
+	else {
 		var database = firebase.firestore();
 		var ldButton = document.getElementById("loadButton");
 		ldButton.value = "Close";
@@ -145,7 +135,7 @@ function loadListCreation(){
 					});
 				}
 			});
-			});
+		});
 	}
 }
 
