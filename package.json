@@ -1,2 +1,12 @@
 {
-}
+    "name": "my_package",
+    "description": "",
+    "version": "1.0.0",
+    "main": "server.js",
+    "scripts": {
+      "test": "server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
