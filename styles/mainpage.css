@@ -4,11 +4,12 @@ body {
 	background: -webkit-linear-gradient(left, #8F52CE 0%, #9476A4 50%, #5F74C5 100%);
 	background: linear-gradient(to right, #8F52CE 0%, #9476A4 50%, #5F74C5 100%);
 }
+
 div.purpleHorizon {
   border: 8px solid #000000;
   background-color: #4A2F6F;
   width: 100%;
-  height: 70%;
+  /*height: 70%;*/
   text-align: center;
   border-collapse: collapse;
 }
@@ -17,7 +18,7 @@ div.purpleHorizon {
   padding: 10px 10px;
 }
 .divTable.purpleHorizon .divTableBody .divTableCell {
-  font-size: 50px;
+  font-size: 35px;
   font-weight: bold;
   color: #666666;
 }
@@ -51,3 +52,143 @@ div.purpleHorizon {
 .divTableHeading { display: table-header-group;}
 .divTableFoot { display: table-footer-group;}
 .divTableBody { display: table-row-group;}
+
+
+input[type=range].volume-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: -3.35px 0;
+}
+input[type=range].volume-slider:focus {
+  outline: none;
+}
+input[type=range].volume-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 31.7px;
+  cursor: pointer;
+  box-shadow: 0.4px 0.4px 0px #000000, 0px 0px 0.4px #0d0d0d;
+  background: #46262c;
+  border-radius: 1.8px;
+  border: 3.5px solid rgba(1, 1, 1, 0.38);
+}
+input[type=range].volume-slider::-webkit-slider-thumb {
+  box-shadow: 1.8px 1.8px 5.9px rgba(255, 0, 0, 0.49), 0px 0px 1.8px rgba(255, 26, 26, 0.49);
+  border: 2.9px solid #941e00;
+  height: 25px;
+  width: 34px;
+  border-radius: 28px;
+  background: rgba(255, 55, 56, 0.93);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -0.15px;
+}
+input[type=range].volume-slider:focus::-webkit-slider-runnable-track {
+  background: #572f36;
+}
+input[type=range].volume-slider::-moz-range-track {
+  width: 100%;
+  height: 31.7px;
+  cursor: pointer;
+  box-shadow: 0.4px 0.4px 0px #000000, 0px 0px 0.4px #0d0d0d;
+  background: #46262c;
+  border-radius: 1.8px;
+  border: 3.5px solid rgba(1, 1, 1, 0.38);
+}
+input[type=range].volume-slider::-moz-range-thumb {
+  box-shadow: 1.8px 1.8px 5.9px rgba(255, 0, 0, 0.49), 0px 0px 1.8px rgba(255, 26, 26, 0.49);
+  border: 2.9px solid #941e00;
+  height: 25px;
+  width: 34px;
+  border-radius: 28px;
+  background: rgba(255, 55, 56, 0.93);
+  cursor: pointer;
+}
+input[type=range].volume-slider::-ms-track {
+  width: 100%;
+  height: 31.7px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range].volume-slider::-ms-fill-lower {
+  background: #351d22;
+  border: 3.5px solid rgba(1, 1, 1, 0.38);
+  border-radius: 3.6px;
+  box-shadow: 0.4px 0.4px 0px #000000, 0px 0px 0.4px #0d0d0d;
+}
+input[type=range].volume-slider::-ms-fill-upper {
+  background: #46262c;
+  border: 3.5px solid rgba(1, 1, 1, 0.38);
+  border-radius: 3.6px;
+  box-shadow: 0.4px 0.4px 0px #000000, 0px 0px 0.4px #0d0d0d;
+}
+input[type=range].volume-slider::-ms-thumb {
+  box-shadow: 1.8px 1.8px 5.9px rgba(255, 0, 0, 0.49), 0px 0px 1.8px rgba(255, 26, 26, 0.49);
+  border: 2.9px solid #941e00;
+  width: 34px;
+  border-radius: 28px;
+  background: rgba(255, 55, 56, 0.93);
+  cursor: pointer;
+  height: 25px;
+}
+input[type=range].volume-slider:focus::-ms-fill-lower {
+  background: #46262c;
+}
+input[type=range].volume-slider:focus::-ms-fill-upper {
+  background: #572f36;
+}
+
+.activate-button {
+	-moz-box-shadow:inset 0px 34px 0px -15px #7c529e;
+	-webkit-box-shadow:inset 0px 34px 0px -15px #7c529e;
+	box-shadow:inset 0px 34px 0px -15px #7c529e;
+	background-color:#522f73;
+	-moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	border-radius:20px;
+	border:5px solid #241d13;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:14px;
+	font-weight:bold;
+	padding:9px 23px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #96554b;
+}
+.activate-button:hover {
+	background-color:#541d70;
+}
+.activate-button:active {
+	position:relative;
+	top:1px;
+}
+
+.clipTitleText {
+	font-family: "Arial Black", Gadget, sans-serif;
+	font-size: 40px;
+	letter-spacing: 4.4px;
+	word-spacing: -5px;
+	color: #6D00FF;
+	font-weight: 700;
+	text-decoration: none;
+	font-style: normal;
+	font-variant: normal;
+	text-transform: capitalize;
+}
+
+.titleText {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 80px;
+	letter-spacing: -5px;
+	word-spacing: 6px;
+	color: #99A8FF;
+	font-weight: 700;
+	text-decoration: none;
+	font-style: normal;
+	font-variant: small-caps;
+	text-transform: uppercase;
+	text-align: center;
+}
