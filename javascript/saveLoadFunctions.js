@@ -67,7 +67,7 @@ function loadListCreation(){
 			});
 			});
 	}
-}
+
 
 function loadLoadout(buttonID){
 	console.log("loadLoadout() called");
