@@ -47,7 +47,6 @@ function createSaveLoad() {
 	document.body.appendChild(btn);*/
 }
 
-
 function loadListCreation(){
 	if(loadListViewable){
 		loadListViewable = false;
