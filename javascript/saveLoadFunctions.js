@@ -32,6 +32,7 @@ function createSaveLoad() {
 	var menu = document.createElement("div");
 	menu.className = "select";
 	var selecter = document.createElement("select");
+	selecter.id = "loadOptions";
 	setTimeout(function(){
 
 	loadListIds.forEach(function(lol) {
@@ -169,7 +170,10 @@ function saveLoadout(){
 			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
 				if(doc.data().email == firebase.auth().currentUser.email){
 					var clipCollectionName = document.getElementById("saveShit-input").value;
-					
+					var el = document.createElement("option");
+					el.textContent = document.getElementById("saveShit-input").value;
+					el.value = document.getElementById("saveShit-input").value;
+					document.getElementById("loadOptions").appendChild(el);
 					
 					database.collection("leaderboard").add({
 						name: clipCollectionName,
@@ -215,7 +219,6 @@ function saveLoadout(){
 										volume: soundoptions[i].sound.volume(),
 										activated: soundoptions[i].sound.playing()
 									});
-									location.reload();
 								}
 							}
 						});
@@ -224,6 +227,7 @@ function saveLoadout(){
 				}
 			});
 			});
+			
 	}else{
 		console.log("big error");
 	}
