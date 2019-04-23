@@ -8,15 +8,15 @@ function createSaveLoad() {
 	loadListCreation();
 	
 	//save button
-	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
 	var textField = document.createElement("input");
 	textField.type = "text";
 	textField.id = "saveShit-input";
 	textField.className = "save-input";
 	textField.placeholder = "Enter Preset Name";
-	document.getElementById("presetMenu").appendChild(textField);
-	document.getElementById("presetMenu").appendChild(document.createElement("br"));
-	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	document.getElementById("saveMenu").appendChild(textField);
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
 	var saveButton = document.createElement("input");
 	saveButton.type = "button";
 	saveButton.className = "activate-button";
@@ -25,8 +25,8 @@ function createSaveLoad() {
 	saveButton.addEventListener('click', function(){
 		saveLoadout();
 	}, false);
-	document.getElementById("presetMenu").appendChild(saveButton);
-	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	document.getElementById("saveMenu").appendChild(saveButton);
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
 	
 	//load shit
 	var menu = document.createElement("div");
@@ -47,9 +47,9 @@ function createSaveLoad() {
 	var arrow = document.createElement("div");
 	arrow.className = "select_arrow";
 	menu.appendChild(arrow);
-	document.getElementById("presetMenu").appendChild(document.createElement("br"));
-	document.getElementById("presetMenu").appendChild(menu);
-	document.getElementById("presetMenu").appendChild(document.createElement("br"));
+	document.getElementById("loadMenu").appendChild(document.createElement("br"));
+	document.getElementById("loadMenu").appendChild(menu);
+	document.getElementById("loadMenu").appendChild(document.createElement("br"));
 	var btn = document.createElement("input");
 	btn.type = "button";
 	btn.className = "activate-button";
@@ -58,7 +58,7 @@ function createSaveLoad() {
 	btn.addEventListener('click', function(){
 		loadLoadout(selecter.options[selecter.selectedIndex].text);
 	}, false);
-	document.getElementById("presetMenu").appendChild(btn);
+	document.getElementById("loadMenu").appendChild(btn);
 	
 	
 
