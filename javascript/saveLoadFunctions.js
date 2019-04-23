@@ -1,24 +1,66 @@
 var loadListViewable = false;
 
+
 var loadListIds = [];
 
 function createSaveLoad() {
 	console.log("createSaveLoad() called");
+	loadListCreation();
 	
-	var itemsloaded = loadListCreation();
-	for(var i = 0; i < itemsloaded.length; i++) {
-		console.log(itemsloaded[i]);
-	}
-
+	//save button
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
+	var textField = document.createElement("input");
+	textField.type = "text";
+	textField.id = "saveShit-input";
+	textField.className = "save-input";
+	textField.placeholder = "Enter Preset Name";
+	document.getElementById("saveMenu").appendChild(textField);
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
+	var saveButton = document.createElement("input");
+	saveButton.type = "button";
+	saveButton.className = "activate-button";
+	saveButton.id = "saveShit";
+	saveButton.value = "Save";
+	saveButton.addEventListener('click', function(){
+		saveLoadout();
+	}, false);
+	document.getElementById("saveMenu").appendChild(saveButton);
+	document.getElementById("saveMenu").appendChild(document.createElement("br"));
+	
+	//load shit
 	var menu = document.createElement("div");
 	menu.className = "select";
-	for(var i = 0; i < itemsloaded.length; i++) {
+	var selecter = document.createElement("select");
+	selecter.id = "loadOptions";
+	setTimeout(function(){
+
+	loadListIds.forEach(function(lol) {
 		var el = document.createElement("option");
-		el.textContent = itemsloaded[i];
-		el.value = itemsloaded[i];
-		menu.appendChild(el);
-	}
-	document.body.appendChild(menu);
+		el.textContent = lol;
+		el.value = lol;
+		selecter.appendChild(el);
+	});
+	}, 1000);
+	
+	menu.appendChild(selecter);
+	var arrow = document.createElement("div");
+	arrow.className = "select_arrow";
+	menu.appendChild(arrow);
+	document.getElementById("loadMenu").appendChild(document.createElement("br"));
+	document.getElementById("loadMenu").appendChild(menu);
+	document.getElementById("loadMenu").appendChild(document.createElement("br"));
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.className = "activate-button";
+	btn.id = "loadShit";
+	btn.value = "Load";
+	btn.addEventListener('click', function(){
+		loadLoadout(selecter.options[selecter.selectedIndex].text);
+	}, false);
+	document.getElementById("loadMenu").appendChild(btn);
+	
+	
 
 	/*document.body.appendChild(document.createElement("br"));
 	
@@ -48,6 +90,7 @@ function createSaveLoad() {
 }
 
 function loadListCreation(){
+	
 		var database = firebase.firestore();
 			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
 				if(doc.data().email == firebase.auth().currentUser.email){
@@ -62,10 +105,11 @@ function loadListCreation(){
 						});
 					});
 					
-					return loadListIds;
+					//return loadListIds;
 				}
 			});
 			});
+			
 	}
 
 
@@ -125,8 +169,11 @@ function saveLoadout(){
 			var database = firebase.firestore();
 			database.collection("users").get().then(snapshot => { snapshot.forEach(doc => {
 				if(doc.data().email == firebase.auth().currentUser.email){
-					var clipCollectionName = document.getElementById("saveText").value;
-					
+					var clipCollectionName = document.getElementById("saveShit-input").value;
+					var el = document.createElement("option");
+					el.textContent = document.getElementById("saveShit-input").value;
+					el.value = document.getElementById("saveShit-input").value;
+					document.getElementById("loadOptions").appendChild(el);
 					
 					database.collection("leaderboard").add({
 						name: clipCollectionName,
@@ -156,7 +203,7 @@ function saveLoadout(){
 					database.collection("users").doc(doc.id).collection("ClipCollections").add({
 						name: clipCollectionName
 					});
-					document.getElementById("saveText").value = "";
+					document.getElementById("saveShit-input").value = "";
 					database.collection("users/" + doc.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc2 => {
 							if(doc2.data().name == clipCollectionName){
 								for(i = 0; i < soundoptions.length; ++i){
@@ -181,12 +228,6 @@ function saveLoadout(){
 			});
 			});
 			
-			if(loadListViewable == true){
-				//recreate load list if it's already open to add newest item.
-				loadListCreation();
-				loadListViewable = false;
-				loadListCreation();
-			}
 	}else{
 		console.log("big error");
 	}
