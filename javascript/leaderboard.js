@@ -1,58 +1,149 @@
 
 function setupTable(tableBody) {
     var titleRow = document.createElement('tr');
-    titleRow.setAttribute("class","divTableRow");
+    titleRow.setAttribute("class","clipTitleText");
+    titleRow.setAttribute("style","text-align: center; color: #6D00FF");
     
     var temp = document.createElement('td');
     temp.setAttribute("class","divTableCell");
+    temp.setAttribute("style","text-align: center; color: #6D00FF");
     temp.appendChild(document.createTextNode("Name"));
     titleRow.appendChild(temp);
     
     temp = document.createElement('td');
     temp.setAttribute("class","divTableCell");
+    temp.setAttribute("style","text-align: center; color: #6D00FF");
     temp.appendChild(document.createTextNode("Owner"));
     titleRow.appendChild(temp);
     
     temp = document.createElement('td');
     temp.setAttribute("class","divTableCell");
+    temp.setAttribute("style","text-align: center; color: #6D00FF");
     temp.appendChild(document.createTextNode("Rating"));
     titleRow.appendChild(temp);
     
     temp = document.createElement('td');
     temp.setAttribute("class","divTableCell");
+    temp.setAttribute("style","text-align: center; color: #6D00FF");
     temp.appendChild(document.createTextNode("Vote"));
     titleRow.appendChild(temp);
 
     tableBody.appendChild(titleRow);
 }
 
+var list = [];
+function populateTable(tableBody) {
+	var database = firebase.firestore();
+    var counter = 0;
+    database.collection("leaderboard").get().then(snapshot => {snapshot.forEach(doc2 => {
+        
+        if(doc2.data().name == "dummyClip") return;
+            var entry = {name: doc2.data().name, userEmail: doc2.data().userEmail, rating: doc2.data().rating};
+            list[counter] = entry;
+            console.log("Adding");
+            counter = counter + 1;
+        })
+        
+        list.sort(function(x,y) {
+            if(x.rating > y.rating) return 1;
+            if(x.rating == y.rating) return 0;
+            return -1;
+        });
+
+        for(var i = 0; i < list.length; ++i) {
+
+            var tr = document.createElement('tr');
+            tr.setAttribute("class","clipTitleText");
+            
+            var td = document.createElement('td');
+            td.setAttribute("class","divTableCell");
+            td.setAttribute("style","text-align: center; color: #6D00FF");
+            td.appendChild(document.createTextNode(list[i].name));
+            tr.appendChild(td)
+            
+            var td = document.createElement('td');
+            td.setAttribute("class","divTableCell");
+            td.setAttribute("style","text-align: center; color: #6D00FF");
+            td.appendChild(document.createTextNode(list[i].userEmail));
+            tr.appendChild(td)
+            
+            var td = document.createElement('td');
+            td.setAttribute("class","divTableCell");
+            td.setAttribute("style","text-align: center; color: #6D00FF");
+            var text = document.createTextNode(list[i].rating);
+            td.appendChild(text);
+            tr.appendChild(td)
+            
+            var button = document.createElement("input");
+            button.type = "button";
+            button.id = "upvote" + i;
+            button.value = "\u2B06"
+            button.setAttribute("onClick","upvoteClick("+i+")");
+            button.setAttribute("class","divTableCell");
+            button.setAttribute("style","height:100px;width:100%; font-size: 50pt");
+
+            tr.setAttribute("style","vertical-align: middle");
+	        tr.appendChild(button);
+
+            tableBody.appendChild(tr);
+
+
+        }
+
+    });
+}
+
+var table = document.createElement("TABLE");
+
 document.addEventListener("DOMContentLoaded", function(even) {
     console.log("Loading leaderboard");
-    var table = document.createElement("TABLE");
+    createBackButton();
     table.setAttribute("id", "myTable");
     table.setAttribute("class", "divTable purpleHorizon");
     document.body.appendChild(table);
     var tableBody = document.createElement('tbody');
     tableBody.setAttribute("class","divTableBody");
+    tableBody.setAttribute("style","background: #4A2F6F; font-size: 20pt");
     
     setupTable(tableBody);
     
-    for (var i = 0; i < 10; i++) {
-        var tr = document.createElement('tr');
-        tr.setAttribute("class","divTableRow");
-        //TODO: Query FB and set each column to the relevant information
-        for(var j = 0; j < 3; j++) {
-            var td = document.createElement('td');
-            td.setAttribute("class","divTableCell");
-            //TODO: replace "test" with preset's field relevant to the column
-            //PresetName    Owner   Rating
-            td.appendChild(document.createTextNode("Test"));
-            tr.appendChild(td)
-        }
-
-        //Here we also need to add buttons on each row
-
-        tableBody.appendChild(tr);
-    }
+    populateTable(tableBody);
+    
     table.appendChild(tableBody);
 })
+
+function upvoteClick(id) {
+    console.log("Upvoting " + id);
+    console.log(list[id]);
+    if(list[id].pressed == true) {
+        list[id].rating -= 1;
+    } else {
+        list[id].rating += 1;
+    }
+    
+    list[id].pressed = !list[id].pressed;
+    
+    //Alters HTML text displaying the rating
+    table.rows[id+1].cells[2].innerHTML = list[id].rating;
+    
+    //TODO: Tell firebase to save the preset and increment rating!
+    //list's elements hold the form {name, userEmail, rating, ratingElement (used for updating text)}
+
+
+}
+function createBackButton() {
+	console.log("createBackButton() called");
+	var btn = document.createElement("input");
+	btn.type = "button";
+	btn.id = 'mainPageButton';
+	btn.value = "Go Back";
+    btn.style="margin: auto; width: 100%; text-align: center;";
+    btn.setAttribute("class","activate-button");
+	btn.onclick=directToMain;
+	document.body.appendChild(btn);
+}
+
+function directToMain() {
+    window.location = "./index.html";
+}
+
