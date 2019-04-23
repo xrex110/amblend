@@ -138,6 +138,33 @@ function upvoteClick(id) {
 						}
 						});
 					});
+					//start delete
+					
+					database.collection("users").get().then(snapshot => {snapshot.forEach(doc3 => {
+							if(doc3.data().email == firebase.auth().currentUser.email){
+								database.collection("users/" + doc3.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc4 => {
+										if(doc4.data().name == doc2.data().name){
+											//begin actual deletion
+											
+											database.collection("users").doc(doc3.id).collection("ClipCollections").doc(doc4.id).collection("Clips").get().then(snapshot => {snapshot.forEach(doc5 => {
+												
+													doc5.ref.delete();
+												
+												});
+											});
+											
+											doc4.ref.delete();
+											
+											//end actual deletion
+										}
+									});
+								});
+							}
+						});
+					});
+					
+					
+					//end
 				}
 			});
 		});
@@ -150,6 +177,31 @@ function upvoteClick(id) {
 					});
 					database.collection("leaderboard").doc(doc2.id).collection("Upvotes").add({
 						name: firebase.auth().currentUser.email
+					});
+					database.collection("users").get().then(snapshot => {snapshot.forEach(doc3 => {
+							if(doc3.data().email == firebase.auth().currentUser.email){
+								var clipCollectionName = doc2.data().name;
+								database.collection("users").doc(doc3.id).collection("ClipCollections").add({
+									name: clipCollectionName
+								});
+								database.collection("users/" + doc3.id + "/ClipCollections").get().then(snapshot => {snapshot.forEach(doc4 => {
+									if(clipCollectionName == doc4.data().name){
+										console.log("once");
+										database.collection("leaderboard").doc(doc2.id).collection("Clips").get().then(snapshot => {snapshot.forEach(doc5 => {
+											console.log(doc5.data().name);
+												database.collection("users").doc(doc3.id).collection("ClipCollections").doc(doc4.id).collection("Clips").add({
+												name: doc5.data().name,
+												panning: doc5.data().panning,
+												volume: doc5.data().volume,
+												activated: doc5.data().activated
+												});
+											});
+										});
+									}
+								});
+								});
+							}
+						});
 					});
 				}
 			});
