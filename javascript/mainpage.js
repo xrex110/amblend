@@ -68,8 +68,6 @@ document.addEventListener("DOMContentLoaded", function(even) {
 			// No user is signed in.
 			createGoogleAuth(); //Relevant functions in googleAuthFunctions.js
 			createOptions();
-			createSaveLoad(); //relevant functions in saveLoadFunctions.js
-			createLeaderboardButton();
 		}
 	});
 });
