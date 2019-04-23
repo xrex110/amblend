@@ -68,6 +68,8 @@ document.addEventListener("DOMContentLoaded", function(even) {
 			// No user is signed in.
 			createGoogleAuth(); //Relevant functions in googleAuthFunctions.js
 			createOptions();
+			createSaveLoad(); //relevant functions in saveLoadFunctions.js
+			createLeaderboardButton();
 		}
 	});
 });
@@ -147,10 +149,12 @@ function createLeaderboardButton() {
 	console.log("createLeaderboardButton() called");
 	var btn = document.createElement("input");
 	btn.type = "button";
+	btn.className = "activate-button";
 	btn.id = 'leaderboardButton';
-	btn.value = "Leaderboard";
+	btn.value = "View Leaderboards";
 	btn.onclick=directToLeaderboard;
-	document.body.appendChild(btn);
+	document.getElementById("leaderBoardWrapper").appendChild(document.createElement("br"));
+	document.getElementById("leaderBoardWrapper").appendChild(btn);
 }
 function directToLeaderboard() {
     window.location = "./leaderboard.html"
