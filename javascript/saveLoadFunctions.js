@@ -196,6 +196,9 @@ function saveLoadout(){
 										activated: soundoptions[i].sound.playing()
 									});
 								}
+								database.collection("leaderboard").doc(doc2.id).collection("Upvotes").add({
+										name: "dummyUpvoter"
+								});
 							}
 						});
 					});

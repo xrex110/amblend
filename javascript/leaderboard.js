@@ -42,6 +42,14 @@ function populateTable(tableBody) {
             list[counter] = entry;
             console.log("Adding");
             counter = counter + 1;
+			
+			database.collection("leaderboard").doc(doc2.id).collection("Upvotes").get().then(snapshot => {snapshot.forEach(doc3 => {
+						if(doc3.data().name == firebase.auth().currentUser.email){
+							list[counter-1].pressed = true;
+						}
+			});
+		});
+			
         })
         
         list.sort(function(x,y) {
@@ -113,11 +121,39 @@ document.addEventListener("DOMContentLoaded", function(even) {
 })
 
 function upvoteClick(id) {
+	var database = firebase.firestore();
     console.log("Upvoting " + id);
     console.log(list[id]);
     if(list[id].pressed == true) {
         list[id].rating -= 1;
+		database.collection("leaderboard").get().then(snapshot => {snapshot.forEach(doc2 => {
+				if(doc2.data().name == list[id].name){
+					var newRating = doc2.data().rating - 1;
+					database.collection("leaderboard").doc(doc2.id).update({
+						rating: newRating
+					});
+					database.collection("leaderboard").doc(doc2.id).collection("Upvotes").get().then(snapshot => {snapshot.forEach(doc3 => {
+						if(doc3.data().name == firebase.auth().currentUser.email){
+							doc3.ref.delete();
+						}
+						});
+					});
+				}
+			});
+		});
     } else {
+		database.collection("leaderboard").get().then(snapshot => {snapshot.forEach(doc2 => {
+				if(doc2.data().name == list[id].name){
+					var newRating = doc2.data().rating + 1;
+					database.collection("leaderboard").doc(doc2.id).update({
+						rating: newRating
+					});
+					database.collection("leaderboard").doc(doc2.id).collection("Upvotes").add({
+						name: firebase.auth().currentUser.email
+					});
+				}
+			});
+		});
         list[id].rating += 1;
     }
     
@@ -125,8 +161,8 @@ function upvoteClick(id) {
     
     //Alters HTML text displaying the rating
     table.rows[id+1].cells[2].innerHTML = list[id].rating;
-    
     //TODO: Tell firebase to save the preset and increment rating!
+	
     //list's elements hold the form {name, userEmail, rating, ratingElement (used for updating text)}
 
 
