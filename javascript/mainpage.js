@@ -39,15 +39,39 @@ var ocean_waves = new Howl ({
 	volume: 0.5,
 	stereo: 0
 });
+var brown_noise = new Howl ({
+	src: ['resources/sounds/Brown-noise-sleep.mp3'],
+	loop: true,
+	volume: 0.5,
+	stereo: 0
+});
+var rolling_thunder = new Howl ({
+	src: ['resources/sounds/rolling-thunder.mp3'],
+	loop: true,
+	volume: 0.5,
+	stereo: 0
+});
+var insects_night = new Howl ({
+	src: ['resources/sounds/insects-night.mp3'],
+	loop: true,
+	volume: 0.5,
+	stereo: 0
+});
+var crab_rave = new Howl ({
+	src: ['resources/sounds/crab-rave.mp3'],
+	loop: true,
+	volume: 0.5,
+	stereo: 0
+});
 
 var soundoptions = [new Clip("Soft rain", softrain, 0, 0),
 					new Clip("Fireplace", fireplace, 0, 0),
 					new Clip("Forest creek", forest_creek, 0, 0),
 					new Clip("Ocean beach", ocean_waves, 0, 0),
-					new Clip("Fireplace", fireplace, 0, 0),
-					new Clip("Forest creek", forest_creek, 0, 0),
-					new Clip("Fireplace", fireplace, 0, 0),
-					new Clip("Forest creek", forest_creek, 0, 0)];
+					new Clip("Brown Noise", brown_noise, 0, 0),
+					new Clip("Thunder", rolling_thunder, 0, 0),
+					new Clip("Nighttime", insects_night, 0, 0),
+					new Clip("Calming notes", crab_rave, 0, 0)];
 console.log("Stuff created");
 
 //The below event listener makes this code wait until the DOM is loaded from HTML,
